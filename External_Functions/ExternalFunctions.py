@@ -156,7 +156,6 @@ def simpson38(f, edges, bw, *arg):
     yedges = f(edges, *arg)
     left38 = f((2.*edges[1:]+edges[:-1]) / 3., *arg)
     right38 = f((edges[1:]+2.*edges[:-1]) / 3., *arg)
-    
     return bw / 8.*( np.sum(yedges)*2.+np.sum(left38+right38)*3. - (yedges[0]+yedges[-1]) ) #simpson3/8
 
 
