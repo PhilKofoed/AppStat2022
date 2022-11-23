@@ -61,11 +61,35 @@ def nice_string_output(d, extra_spacing=5, decimals=3):
     return string[:-2]
 
 
-def add_text_to_ax(x_coord, y_coord, string, ax, fontsize=12, color='k'):
+def add_text_to_ax(x_coord, y_coord, string, ax, fontsize=12, color='k', halignment = "left", valignment = "top"):
     """ Shortcut to add text to an ax with proper font. Relative coords."""
     ax.text(x_coord, y_coord, string, family='monospace', fontsize=fontsize,
-            transform=ax.transAxes, verticalalignment='top', color=color)
+            transform=ax.transAxes, va=valignment, ha = halignment, color=color)
     return None
+
+def truncate_data(data, t_range = (0.1, 0.9)):
+    tp_range = np.array(t_range) * 100
+    return data[(data > np.percentile(data, tp_range[0])) & (data < np.percentile(data, tp_range[1]))]
+
+def add_header_to_ax(
+    data, x_coord, y_coord, ax,
+    getentries = True, getmean = True, gettmean = False, getstd = True, gettstd = False, truncate_range = (0.1, 0.9),
+    extraspacing = 5, decimals = 3, fontsize = 12, color = "k", halignment = "left", valignment = "top"):
+    
+    header = {
+            "Entries": len(data),
+            "Mean": np.mean(data),
+            "Truncated_mean": np.mean(truncate_data(data, truncate_range)),
+            "Std": np.std(data, ddof = 1),
+            "Truncated_std": np.std(truncate_data(data, truncate_range), ddof = 1)
+            }
+    boolean_check = [getentries, getmean, gettmean, getstd, gettstd]
+    header = {key: header[key] for idx, key in enumerate(header) if boolean_check[idx]}
+    
+    niceheader = nice_string_output(header, extraspacing, decimals)
+    
+    add_text_to_ax(x_coord, y_coord, niceheader, ax,
+                   fontsize = fontsize, color = color, halignment = halignment, valignment = valignment)
 
 
 
