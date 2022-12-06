@@ -1,0 +1,4 @@
+Pendulum to top (m);Pendulum to top error (m);Floor to top (m);Floor to top (m);Pendulum height (cm);Pendulum height error (cm);Floor to pendulum laser (m);Floor to pendulum laser error (m);Floor to pendulum measuring tape (cm);Floor to pendulum measuring tape error (cm);Floor to attic laser (m);Floor to attic laser error (m)
+18,10;0,01;18,76;0,015;3,01;0,05;0,310;0,001;31,1;0,1;18,775;0,001
+18,15;0,5;18,6;0,5;3,02;0,02;0,311;0,001;31,0;0,1;18,784;0,001
+18,42;0,2;18,743;0,2;3,01;0,03;0,310;0,001;31,1;0,1;18,83;0,001
