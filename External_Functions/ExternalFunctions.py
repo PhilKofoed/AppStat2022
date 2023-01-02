@@ -58,7 +58,7 @@ def nice_string_output(d, extra_spacing=5, decimals=3):
     for name, value in zip(names, values):
         spacing = extra_spacing + max_values + max_names - len(name) - 1 
         string += "{name:s} {value:>{spacing}} \n".format(name=name, value=value, spacing=spacing)
-    return string[:-2]
+    return string[:-1]
 
 
 def add_text_to_ax(x_coord, y_coord, string, ax, fontsize=12, color='k', halignment = "left", valignment = "top"):
