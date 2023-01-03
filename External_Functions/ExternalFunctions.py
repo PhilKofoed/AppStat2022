@@ -78,7 +78,7 @@ def add_header_to_ax(
     
     header = {
             "Entries": len(data),
-            "Mean": np.mean(data),
+            "Mean": [np.mean(data), np.std(data, ddof = 1)/np.sqrt(len(data))],
             "Truncated_mean": np.mean(truncate_data(data, truncate_range)),
             "Std": np.std(data, ddof = 1),
             "Truncated_std": np.std(truncate_data(data, truncate_range), ddof = 1)
