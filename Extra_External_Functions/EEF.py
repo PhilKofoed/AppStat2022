@@ -156,7 +156,7 @@ class Datahandler():
         elif not fulldata:
             return self.valuesfit, self.errorsfit
 
-    def ullhfit(self, fitfunc, extended = False, extended_nint = 100, **kwargs):
+    def ullhfit(self, fitfunc, extended = True, extended_nint = 100, **kwargs):
 
         def obt(*args):
             # !!! Ripped directly from Troels Petersen's work !!!
@@ -200,18 +200,22 @@ class Datahandler():
         self.fig, self.ax = plt.subplots(1,1, figsize = figsize)
         self.plotinit = True
             
-    def quickplot(self):
+    def quickplot(self, capsize = 3, label = "Default", xlabel = "", ylabel = ""):
         if self.plotinit:
             if self.binned:
-                self.ax.hist(self.data, bins = self.bins, histtype = "step", color = "b")
+                self.ax.hist(self.data, bins = self.bins, histtype = "step", color = "b", label = label)
                 self.ax.errorbar(self.x, self.y, yerr = self.sy, fmt = ".", ecolor = "k", markersize = 0, capsize = 3)
+                self.ax.set_xlabel(xlabel, fontsize = 10)
+                self.ax.set_ylabel(ylabel, fontsize = 10)            
             else:
-                self.ax.plot(self.x, self.y, color = "b")
-                self.ax.errorbar(self.x, self.y, yerr = self.sy, fmt = ".", ecolor = "k", markersize = 0, capsize = 3)
+                self.ax.plot(self.x, self.y, color = "b", label = label)
+                self.ax.errorbar(self.x, self.y, yerr = self.sy, fmt = ".", ecolor = "k", markersize = 0, capsize = capsize)
+                self.ax.set_xlabel(xlabel, fontsize = 10)
+                self.ax.set_ylabel(ylabel, fontsize = 10)
         else:
             raise ValueError("No plot initialized. Do initplot()")
 
-    def plotfit(self, xpos = 0.02, ypos = 0.98, extra_spacing=-3, decimals=3, N_plotpoints = 10000, textboxspace = 1/3, **kwargs):
+    def plotfit(self, xpos = 0.02, ypos = 0.98, extra_spacing=-3, decimals=3, N_plotpoints = 10000, topspace = 0.3, textboxspace = 1/3, **kwargs):
         if self.plotinit:
             if self.lastfittype == None:
                 raise ValueError("!!! No fit has been done !!!\nPlease call a fit function before plotting")
@@ -230,7 +234,7 @@ class Datahandler():
                 text = nice_string_output(d, extra_spacing=extra_spacing, decimals=decimals)
                 add_text_to_ax(xpos + textboxspace * (self.nfits-1), ypos, text, self.ax, **kwargs)
                 ymin, ymax = self.ax.get_ylim()
-                ymax = ymax + (ymax-ymin)*0.3
+                ymax = ymax + (ymax-ymin)*topspace
                 self.ax.set_ylim(ymin, ymax)
             if self.lastfittype == "ullh":
                 xvalues = np.linspace(*self.xrange, N_plotpoints)
@@ -242,7 +246,7 @@ class Datahandler():
                 text = nice_string_output(d, extra_spacing=extra_spacing, decimals=decimals)
                 add_text_to_ax(xpos + textboxspace * (self.nfits-1), ypos, text, self.ax, **kwargs)
                 ymin, ymax = self.ax.get_ylim()
-                ymax = ymax + (ymax-ymin)*0.3
+                ymax = ymax + (ymax-ymin)*topspace
                 self.ax.set_ylim(ymin, ymax)
         else:
             raise ValueError("No plot initialized. Do initplot()")
