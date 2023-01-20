@@ -200,11 +200,12 @@ class Datahandler():
         self.fig, self.ax = plt.subplots(1,1, figsize = figsize)
         self.plotinit = True
             
-    def quickplot(self, lineplot = True, errorplot = True, label = "Default", xlabel = "", ylabel = ""):
+    def quickplot(self, lineplot = True, errorplot = True, label = "Default", xlabel = "", ylabel = "", capsize = 3):
         if self.plotinit:
             if self.binned:
                 self.ax.hist(self.data, bins = self.bins, histtype = "step", color = "b", label = label)
-                self.ax.errorbar(self.x, self.y, yerr = self.sy, fmt = ".", ecolor = "k", markersize = 0, capsize = 3)
+                if errorplot:
+                    self.ax.errorbar(self.x, self.y, yerr = self.sy, fmt = ".", ecolor = "k", markersize = 0, capsize = capsize)
                 self.ax.set_xlabel(xlabel, fontsize = 10)
                 self.ax.set_ylabel(ylabel, fontsize = 10)            
             else:
@@ -212,7 +213,7 @@ class Datahandler():
                     self.ax.plot(self.x, self.y, color = "b", label = label)
                 if errorplot:
                     self.ax.errorbar(self.x, self.y, yerr = self.sy, fmt = ".", 
-                                     ecolor = "k", markersize = 7, color = "b", capsize = 3, label = label)
+                                     ecolor = "k", markersize = 7, color = "b", capsize = capsize, label = label)
                 self.ax.set_xlabel(xlabel, fontsize = 10)
                 self.ax.set_ylabel(ylabel, fontsize = 10)
         else:
