@@ -200,7 +200,7 @@ class Datahandler():
         self.fig, self.ax = plt.subplots(1,1, figsize = figsize)
         self.plotinit = True
             
-    def quickplot(self, capsize = 3, label = "Default", xlabel = "", ylabel = ""):
+    def quickplot(self, lineplot = True, errorplot = True, label = "Default", xlabel = "", ylabel = ""):
         if self.plotinit:
             if self.binned:
                 self.ax.hist(self.data, bins = self.bins, histtype = "step", color = "b", label = label)
@@ -208,8 +208,11 @@ class Datahandler():
                 self.ax.set_xlabel(xlabel, fontsize = 10)
                 self.ax.set_ylabel(ylabel, fontsize = 10)            
             else:
-                self.ax.plot(self.x, self.y, color = "b", label = label)
-                self.ax.errorbar(self.x, self.y, yerr = self.sy, fmt = ".", ecolor = "k", markersize = 0, capsize = capsize)
+                if lineplot:
+                    self.ax.plot(self.x, self.y, color = "b", label = label)
+                if errorplot:
+                    self.ax.errorbar(self.x, self.y, yerr = self.sy, fmt = ".", 
+                                     ecolor = "k", markersize = 7, color = "b", capsize = 3, label = label)
                 self.ax.set_xlabel(xlabel, fontsize = 10)
                 self.ax.set_ylabel(ylabel, fontsize = 10)
         else:
@@ -252,7 +255,7 @@ class Datahandler():
             raise ValueError("No plot initialized. Do initplot()")
 
     def legend(self):
-        self.ax.legend(frameon = False, fontsize = 8, loc = "upper right")
+        self.ax.legend(frameon = False, fontsize = 12, loc = "upper right")
 
     def savefig(self, name = "Default", dpi = 400):
         self.fig.tight_layout()
